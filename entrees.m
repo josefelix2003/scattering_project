@@ -14,9 +14,15 @@ Ry = double(Ry);  % Conversion en type flottant
 beta = input('Veuillez entrer beta: ');
 beta = double(beta);  % Conversion en type flottant
 
+Iz=-(alpha*Ix+beta*Iy)/(gamma1)
+Jz=-(alpha*Jx+beta*Jy)/(gamma2)
+Tz=-(alpha*Tx+beta*Ty)/(gamma2)
+Rz=-(alpha*Rx+beta*Ry)/(gamma1)
+
+
 % Création des vecteurs I, R et k
-I = [Ix; Iy];
-R = [Rx; Ry];
+I = [Ix; Iy,Iz];
+R = [Rx; Ry,Rz];
 
 % Afficher les résultats
 disp('Vecteur I:');
