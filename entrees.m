@@ -17,7 +17,6 @@ beta = double(beta);  % Conversion en type flottant
 % Création des vecteurs I, R et k
 I = [Ix; Iy];
 R = [Rx; Ry];
-k = [alpha_n; beta; gamma];
 
 % Afficher les résultats
 disp('Vecteur I:');
@@ -25,6 +24,3 @@ disp(I);
 
 disp('Vecteur R:');
 disp(R);
-
-disp('Vecteur k:');
-disp(k);
