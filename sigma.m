@@ -1,19 +1,15 @@
-e=1,602e-(19)
-hbar=1,05e(-34)
-k_b=1,38e(-23)
-T=300
-mu_c=1
+hbar = 1.05^-34;
+k_b = 1.38^-23;
+e = 1.602^-19;
+T = 300;
+mu_c = 1;
+omega = 1e13;
+gamma = 1e12;
 
-function [sigma_intra]=f(omega,gamma,e,hbar,k_b,T,mu_c)
+function [sigma_intra] = sigma(omega, gamma, e, hbar, k_b, T, mu_c)
+  sigma_intra = (2*i * e*e * k_b * T) / (pi * hbar^2 * (omega + 1*i * gamma)) * log(2 * cosh(mu_c / (2 * k_b * T)));
+endfunction
 
-sigma_inter=(2*i*e^2*k_b*T)/(3,14*(hbar^2)*(omega+i*gamma)*ln((2*cosh((mu_c)/(2*k_b*T))))
-function [sigma_inter]=f(omega, gamma,e,hbar,k_b,T,mu_c)
+sigma_intra = sigma(omega, gamma, e, hbar, k_b, T, mu_c);
 
-  return
-
-  sigma_inter=e*e/(4*hbar)*(0,5+1/3,14*atan(((hbar)*(omega+i*gamma)-2*mu_c)/(2*k_b*T))-i/(2*3,14)*ln(((hbar*(omega+i*gamma)+2*mu_c))^2/(((hbar)*(omega+i*gamma)-2*mu^_c)^2)+(2*k_b*T)^2)
-
-  return
-
- sigma_inter(omega, gamma,e,hbar,k_b,T,mu_c)
- sigma_intra(omega, gamma,e,hbar,k_b,T,mu_c)
+disp(sigma_intra)
