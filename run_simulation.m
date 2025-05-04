@@ -1,4 +1,3 @@
-
 function results = run_simulation ()
   config
 
@@ -22,21 +21,16 @@ function A = compute_absorption (R, T, M, alpha, beta, d, k1, k2)
   gamma_10=sqrt(k1^2 - alpha^2 - beta^2);
   K=2*pi/d;
 
-  for n = -M:M
-    px=n+M+1;
-    py=px+1+2*M;
-    pz=py+1+2*M;
-
-    alpha_n=alpha+n*K;
-    gamma_1n=sqrt(k1^2 - alpha_n^2 - beta^2);
-    gamma_2n=sqrt(k2^2 - alpha_n^2 - beta^2);
-
-    epsilon_rn=real(gamma_1n/gamma_10)*(abs(R(px))^2 + abs(R(py))^2 + abs(R(pz))^2);
-    epsilon_tn=real(gamma_2n/gamma_10)*(abs(T(px))^2 + abs(T(py))^2 + abs(T(pz))^2);
-
-    res_sum+=epsilon_rn+epsilon_tn;
-
-  endfor
+  n = (-M:M);
+  px=n+M+1;
+  py=px+1+2*M;
+  pz=py+1+2*M;
+  alpha_n = transpose(alpha+n*K);
+  gamma_1n = sqrt(k1^2 - alpha_n.^2 - beta^2);
+  gamma_2n = sqrt(k2^2 - alpha_n.^2 - beta^2);
+  epsilon_rn=real(gamma_1n./gamma_10).*(abs(R(px)).^2 + abs(R(py)).^2 + abs(R(pz)).^2);
+  epsilon_tn=real(gamma_2n./gamma_10).*(abs(T(px)).^2 + abs(T(py)).^2 + abs(T(pz)).^2);
+  res_sum = sum(epsilon_rn) + sum(epsilon_tn);
 
   A=1-res_sum;
 endfunction
@@ -44,12 +38,9 @@ endfunction
 function T = toeplitz_matrix (M, a, d, sigma_g)
   c_vect=[];
   r_vect=[];
-  for n = 0:2*M
-    c_vect(end+1) = get_sigma_coeff(n, a, d, sigma_g);
-    r_vect(end+1) = get_sigma_coeff(-n, a, d, sigma_g);
-
-    endfor
-
+  n = 0:2*M;
+  c_vect = get_sigma_coeff(n, a, d, sigma_g);
+  r_vect = get_sigma_coeff(-n, a, d, sigma_g);
 
   T = toeplitz(c_vect,r_vect);
 
@@ -84,23 +75,18 @@ function [omega, gamma1, gamma2] = omega_gamma_matrix (M, alpha, beta, d, k0, k1
   F=zeros(2*M+1);
 
 
-  for p = 1:2*M+1
+    p = (1:2*M+1);
     n=p-(M+1); #p matrix index and n true channel index
     alpha_n=alpha+n*K;
-    gamma_1n=sqrt(k1^2 - alpha_n^2 - beta^2);
-    gamma_2n=sqrt(k2^2 - alpha_n^2 - beta^2);
+    gamma_1n=sqrt(k1^2 - alpha_n.^2 - beta^2);
+    gamma_2n=sqrt(k2^2 - alpha_n.^2 - beta^2);
+    A = (alpha_n*beta./gamma_1n).*eye(2*M+1);
+    B = (gamma_1n + (beta^2 ./gamma_1n)).*eye(2*M+1);
+    C = (gamma_1n + (alpha_n.^2 ./gamma_1n)).*eye(2*M+1);
 
-    A(p, p) = alpha_n*beta/gamma_1n;
-    B(p, p) = gamma_1n + (beta^2/gamma_1n);
-    C(p, p) = gamma_1n + (alpha_n^2/gamma_1n);
-
-    D(p, p) = alpha_n*beta/gamma_2n;
-    E(p, p) = gamma_2n + (beta^2/gamma_2n);
-    F(p, p) = gamma_2n + (alpha_n^2/gamma_2n);
-
-
-
-  endfor
+    D = (alpha_n*beta./gamma_2n).*eye(2*M+1);
+    E = (gamma_2n + (beta^2 ./gamma_2n)).*eye(2*M+1);
+    F = (gamma_2n + (alpha_n.^2 ./gamma_2n)).*eye(2*M+1);
 
   gamma1=[A, B; C, A];
   gamma2=[D, E; F, D];
@@ -119,35 +105,38 @@ function [I, J, R, T] = IJRT_vectors (Ixy, Jxy, S, M, d, alpha, beta, k1, k2)
   I = Ixy;
   J = Jxy;
 
-  for px = 1:2*M+1 %px: x vector index
-    py = px+1+2*M;  %py: y vector index
-    n = px-1-M; %n: channel index
-
-    alpha_n=alpha+n*K;
-    gamma_1n=sqrt(k1^2 - alpha_n^2 - beta^2);
-    gamma_2n=sqrt(k2^2 - alpha_n^2 - beta^2);
-
-
-    I(end+1)=-(alpha_n*I(px) + beta*I(py))/gamma_1n;
-    J(end+1)=(alpha_n*J(px) + beta*J(py))/gamma_2n;
-    R(end+1)=(alpha_n*R(px) + beta*R(py))/gamma_1n;
-    T(end+1)=-(alpha_n*T(px) + beta*T(py))/gamma_2n;
-
-
-  endfor
-
+  px = (1:2*M+1);
+  py = px+1+2*M;
+  n = px-1-M;
+  alpha_n = transpose(alpha+n*K);
+  gamma_1n=sqrt(k1^2 - alpha_n.^2 - beta^2);
+  gamma_2n=sqrt(k2^2 - alpha_n.^2 - beta^2);
+  Iz = -(alpha_n.*I(px) + beta*I(py))./gamma_1n;
+  Jz = (alpha_n.*J(px) + beta*J(py))./gamma_2n;
+  Rz = (alpha_n.*R(px) + beta*R(py))./gamma_1n;
+  Tz = -(alpha_n.*T(px) + beta*T(py))./gamma_2n;
+  I = vertcat(I, Iz);
+  J = vertcat(J, Jz);
+  R = vertcat(R, Rz);
+  T = vertcat(T, Tz);
 
 endfunction
 
 function sigma_p = get_sigma_coeff (p, a, d, sigma_g)
-  if (p==0)
-    sigma_p = sigma_g * a / d;
-  else
-    K = 2*pi/d;
-    sigma_p = (exp(-i*K*p*a) - 1)*( i*sigma_g/(2*p*pi) );
-  endif
+  sigma_p = [];
+  for h = 0:columns(p)-1
+    if (h==0)
+      o = sigma_g * a / d;
+    else
+      K = 2*pi/d;
+      o = (exp(-i*K*p(h+1)*a) - 1)*( i*sigma_g/(2*p(h+1)*pi) );
+    endif
+    sigma_p(end+1) = o;
+  endfor
 
 endfunction
+
+
 
 function results = compute_values (in, out)
 
@@ -161,7 +150,7 @@ function results = compute_values (in, out)
   #----------------------------------------------------
   #-----------------Derived quantities-----------------
   k0=2*pi/in.lambda;
-  w=2*pi*c/(in.n*in.lambda); 
+  w=2*pi*c/(in.n*in.lambda); %valeur de n = 1 ?
   sigma_g=sigma(w, damping_factor, in.T, in.mu_c);
   k1=k0*sqrt(in.permittivityr1*in.permeabilityr1);
   k2=k0*sqrt(in.permittivityr2*in.permeabilityr2);
@@ -379,6 +368,5 @@ endfunction
   endif
   return
 endfunction
-
 
 
