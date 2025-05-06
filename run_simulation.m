@@ -1,7 +1,7 @@
 function results = run_simulation ()
   config
 
-  function S = compute_scattering_matrix (gamma1, gamma2, omega, M)
+function S = compute_scattering_matrix (gamma1, gamma2, omega, M)
   A=eye(4*M+2);
   B=-A;
 
@@ -136,8 +136,12 @@ function sigma_p = get_sigma_coeff (p, a, d, sigma_g)
 
 endfunction
 
-
-
+function save_vector(fid, vector, vector_name)
+  fprintf(fid, '%s_real,%s_imag\n', vector_name, vector_name);
+  for i = 1:length(vector)
+    fprintf(fid, '%.6e,%.6e\n', real(vector(i)), imag(vector(i)));
+  end
+endfunction
 function results = compute_values (in, out)
 
   #--------------------Constants-----------------------
@@ -313,40 +317,20 @@ endfunction
     fprintf(fid, 'Absorption = %.4e\n', results.absorption);
   endif
   if out.I
-    fprintf(fid, 'I = \n');
-    for i = 1:size(results.I, 1)
-    fprintf(fid, '%.4f\t', results.I(i, :));  % "\t" pour tabulation entre les valeurs
-    fprintf(fid, '\n');  % Nouvelle ligne à la fin de chaque ligne
-    end
-    fprintf(fid, '\n');  % Nouvelle ligne à la fin de chaque ligne
-
+    save_vector(fid, results.I, "I");
+    fprintf(fid, '\n');
   endif
   if out.J
-    fprintf(fid, 'J = \n');
-    for i = 1:size(results.J, 1)
-    fprintf(fid, '%.4f\t', results.J(i, :));  % "\t" pour tabulation entre les valeurs
-    fprintf(fid, '\n');  % Nouvelle ligne à la fin de chaque ligne
-    end
-    fprintf(fid, '\n');  % Nouvelle ligne à la fin de chaque ligne
-
+    save_vector(fid, results.J, "J");
+    fprintf(fid, '\n');
   endif
   if out.R
-    fprintf(fid, 'R = \n');
-    for i = 1:size(results.R, 1)
-    fprintf(fid, '%.4f\t', results.R(i, :));  % "\t" pour tabulation entre les valeurs
-    fprintf(fid, '\n');  % Nouvelle ligne à la fin de chaque ligne
-    end
-    fprintf(fid, '\n');  % Nouvelle ligne à la fin de chaque ligne
-
+    save_vector(fid, results.R, "R");
+    fprintf(fid, '\n');
   endif
   if out.T
-    fprintf(fid, 'T = \n');
-    for i = 1:size(results.T, 1)
-    fprintf(fid, '%.4f\t', results.T(i, :));  % "\t" pour tabulation entre les valeurs
-    fprintf(fid, '\n');  % Nouvelle ligne à la fin de chaque ligne
-    end
-    fprintf(fid, '\n');  % Nouvelle ligne à la fin de chaque ligne
-
+    save_vector(fid, results.T, "T");
+    fprintf(fid, '\n');
   endif
   if out.scattering_matrix
     fprintf(fid, 'Scattering Matrix = \n');
@@ -368,5 +352,4 @@ endfunction
   endif
   return
 endfunction
-
 
