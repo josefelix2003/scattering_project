@@ -138,9 +138,10 @@ endfunction
 
 function save_vector(fid, vector, vector_name)
   fprintf(fid, '%s_real,%s_imag\n', vector_name, vector_name);
-  for i = 1:length(vector)
-    fprintf(fid, '%.6e,%.6e\n', real(vector(i)), imag(vector(i)));
-  end
+  lenght=length(vector);
+  i = (1:length);
+  fprintf(fid, '%.6e,%.6e\n', real(vector(i)), imag(vector(i)));
+
 endfunction
 function results = compute_values (in, out)
 
