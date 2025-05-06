@@ -137,12 +137,11 @@ function sigma_p = get_sigma_coeff (p, a, d, sigma_g)
 endfunction
 
 function save_vector(fid, vector, vector_name)
-  fprintf(fid, '%s_real,%s_imag\n', vector_name, vector_name);
-  lenght=length(vector);
-  i = (1:length);
-  fprintf(fid, '%.6e,%.6e\n', real(vector(i)), imag(vector(i)));
-
+  fprintf(fid, '\n%s\n', vector_name);
+  data = [real(vector)(:), imag(vector)(:)]';
+  fprintf(fid, '%e+%ei\n', data);
 endfunction
+
 function results = compute_values (in, out)
 
   #--------------------Constants-----------------------
@@ -353,4 +352,3 @@ endfunction
   endif
   return
 endfunction
-
