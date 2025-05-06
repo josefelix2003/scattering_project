@@ -139,7 +139,7 @@ endfunction
 function save_vector(fid, vector, vector_name)
   fprintf(fid, '\n%s\n', vector_name);
   data = [real(vector)(:), imag(vector)(:)]';
-  fprintf(fid, '%e+%ei\n', data);
+  fprintf(fid, '%+e%+ei\n', data);
 endfunction
 
 function results = compute_values (in, out)
