@@ -1,49 +1,58 @@
-in=struct();
-out=struct();
-sweep=struct();
+in = struct();       % Structure contenant les paramètres d’entrée.
+out = struct();      % Structure définissant les sorties à enregistrer.
+sweep = struct();    % Structure pour configurer le balayage paramétrique.
+
 #-------------------Sweep config----------------------
-sweep.enable = true; % Active/désactive le balayage
-sweep.input_variable = 'lambda'; % Nom de la variable d’entrée à balayer
-sweep.min = 300E-9;
-sweep.max = 400E-9;
-sweep.step = 50E-9;
-sweep.output_variable = 'absorption'; % Nom de la grandeur à extraire
-sweep.plot=true;
+sweep.enable = true;                      % Active (true) ou désactive (false) le balayage paramétrique.
+sweep.input_variable = 'lambda';         % Nom de la variable d’entrée à faire varier.
+sweep.min = 300E-9;                      % Valeur minimale à faire varier.
+sweep.max = 400E-9;                      % Valeur maximale à faire varier.
+sweep.step = 50E-9;                      % Pas d’incrément. 
+sweep.output_variable = 'absorption';   % Nom de l'output.
+sweep.plot = true;                      % Si true : affiche un graphique du résultat du balayage.
 
 #-----------------------------------------------------
 #-----------------Input parameters--------------------
-                %Grating parameters
-in.M=4;
-in.a=1E-9;
-in.d=3E-9;
-             %Relative Material parameters
-in.n=1; %à vérifier
-in.permittivityr1=1;
-in.permeabilityr1=1;
-in.permittivityr2=1;
-in.permeabilityr2=1;
-in.T=300;
-in.mu_c=5E-20; %en Joules
-               %Incident Wave parameters
-in.delta=pi/3;
-in.phi=pi/4;
-in.theta=pi/6;
-in.lambda=400E-9;
-              %I, J incident vectors
-in.I0_x=cos(in.delta)*cos(in.phi)*cos(in.theta)-sin(in.delta)*sin(in.phi);
-in.I0_y=cos(in.delta)*sin(in.phi)*cos(in.theta)+sin(in.delta)*cos(in.phi);
-in.Ixy=zeros(4*in.M+2,1);
-in.Jxy=zeros(4*in.M+2,1);
-in.Ixy(in.M+1)=in.I0_x;
-in.Ixy(3*in.M+2)=in.I0_y;
+
+                
+in.M = 4;                   % Ordre de troncature (nombre d’harmoniques de Fourier).
+in.a = 1E-9;                % Largeur du strip de graphène.
+in.d = 3E-9;                % Période du réseau.
+
+             % Paramètres relatifs aux milieux :
+in.n = 1;                   % Indice du milieu.
+in.permittivityr1 = 1;      % Permittivité relative du milieu 1.
+in.permeabilityr1 = 1;      % Perméabilité relative du milieu 1.
+in.permittivityr2 = 1;      % Permittivité relative du milieu 2.
+in.permeabilityr2 = 1;      % Perméabilité relative du milieu 2.
+in.T = 300;                 % Température en Kelvin.
+in.mu_c = 5E-20;            % Potentiel chimique en Joules.
+
+               % Paramètres de l’onde incidente
+in.delta = pi/3;            % Angle delta de polarisation.
+in.phi = pi/4;              % Angle azimutal.
+in.theta = pi/6;            % Colatitude.
+in.lambda = 400E-9;         % Longueur d’onde incidente.
+
+              % Vecteurs I et J (champs incidents) :
+in.I0_x = cos(in.delta)*cos(in.phi)*cos(in.theta) - sin(in.delta)*sin(in.phi);  % Composante x de I.
+in.I0_y = cos(in.delta)*sin(in.phi)*cos(in.theta) + sin(in.delta)*cos(in.phi);  % Composante y de I.
+
+% Initialisation des vecteurs (matrice colonne) Ixy et Jxy.
+in.Ixy = zeros(4*in.M+2, 1);    
+in.Jxy = zeros(4*in.M+2, 1);    
+
+in.Ixy(in.M+1) = in.I0_x;       % Vecteur qui contient les comosantes selon x et y de I (2*M+1 + 2*M+1 valeurs).
+in.Ixy(3*in.M+2) = in.I0_y;     % Vecteur qui contient les comosantes selon x et y de J (2*M+1 + 2*M+1 valeurs).
+
 #-----------------------------------------------------
 #-----------------Output parameters-------------------
-out.absorption=true;
-out.I=true;
-out.J=false;
-out.R=false;
-out.T=false;
-out.scattering_matrix=false;
-out.conductivity=false;
 
-
+%Choix des paramètres de sortie à activer :
+out.absorption = true; % Absorption       
+out.I = true;          % Vecteur I.             
+out.J = false;         % Vecteur J.            
+out.R = false;         % Vecteur R.             
+out.T = false;         % Vecteur T.           
+out.scattering_matrix = false;  % Matrice S.  
+out.conductivity = false;       % Conductivité. 
