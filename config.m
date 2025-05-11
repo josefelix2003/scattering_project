@@ -16,23 +16,23 @@ sweep.plot = true;                      % Si true : affiche un graphique du rés
 
                 
 in.M = 4;                   % Ordre de troncature (nombre d’harmoniques de Fourier).
-in.a = 1E-9;                % Largeur du strip de graphène.
-in.d = 3E-9;                % Période du réseau.
+in.a = 1E-9;                % Largeur du strip de graphène (en m).
+in.d = 3E-9;                % Période du réseau (en m).
 
              % Paramètres relatifs aux milieux :
-in.n = 1;                   % Indice du milieu.
-in.permittivityr1 = 1;      % Permittivité relative du milieu 1.
-in.permeabilityr1 = 1;      % Perméabilité relative du milieu 1.
-in.permittivityr2 = 1;      % Permittivité relative du milieu 2.
-in.permeabilityr2 = 1;      % Perméabilité relative du milieu 2.
+in.n = 1;                   % Indice du milieu (sans unité).
+in.permittivityr1 = 1;      % Permittivité relative du milieu 1 (sans unité).
+in.permeabilityr1 = 1;      % Perméabilité relative du milieu 1 (sans unité).
+in.permittivityr2 = 1;      % Permittivité relative du milieu 2 (sans unité).
+in.permeabilityr2 = 1;      % Perméabilité relative du milieu 2 (sans unité).
 in.T = 300;                 % Température en Kelvin.
 in.mu_c = 5E-20;            % Potentiel chimique en Joules.
 
                % Paramètres de l’onde incidente
-in.delta = pi/3;            % Angle delta de polarisation.
-in.phi = pi/4;              % Angle azimutal.
-in.theta = pi/6;            % Colatitude.
-in.lambda = 400E-9;         % Longueur d’onde incidente.
+in.delta = pi/3;            % Angle delta de polarisation (en rad).
+in.phi = pi/4;              % Angle azimutal (en rad).
+in.theta = pi/6;            % Colatitude (en rad).
+in.lambda = 400E-9;         % Longueur d’onde incidente (en m).
 
               % Vecteurs I et J (champs incidents) :
 in.I0_x = cos(in.delta)*cos(in.phi)*cos(in.theta) - sin(in.delta)*sin(in.phi);  % Composante x de I.
@@ -49,10 +49,10 @@ in.Ixy(3*in.M+2) = in.I0_y;     % Vecteur qui contient les comosantes selon x et
 #-----------------Output parameters-------------------
 
 %Choix des paramètres de sortie à activer :
-out.absorption = true; % Absorption       
+out.absorption = true; % Absorption (sans unité).    
 out.I = true;          % Vecteur I.             
 out.J = false;         % Vecteur J.            
 out.R = false;         % Vecteur R.             
 out.T = false;         % Vecteur T.           
 out.scattering_matrix = false;  % Matrice S.  
-out.conductivity = false;       % Conductivité. 
+out.conductivity = false;       % Conductivité (S/m).
