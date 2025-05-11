@@ -1,48 +1,46 @@
-% Mettre les unités.
-
 function results = run_simulation ()
   config %On charge le fichier config.m pour parametrer les variables de la simulation.
 
 function results = compute_values (in, out) % "in" les input (variables d'entrée). % "out" les output (variables de sortie).
 
   #--------------------Constants-----------------------
-  c=3E8; %Vitesse de la lumière dans le vide.
-  hbar=1.05E-34; %Constante de Planck réduite.
-  permittivity0=8.8541E-12; %Permitivité du vide.
-  permeability0=1.2566E-6; %Permeabilité du vide.
-  Z0=sqrt(permeability0/permittivity0); %Impédance du milieu
-  damping_factor=0.658E-22/hbar; %Facteur d'amortissement.
+  c=3E8; %Vitesse de la lumière dans le vide (m/s).
+  hbar=1.05E-34; %Constante de Planck réduite (J·s).
+  permittivity0=8.8541E-12; %Permittivité du vide (F/m). F : farad
+  permeability0=1.2566E-6; %Perméabilité du vide (H/m) ou (T*m/A).
+  Z0=sqrt(permeability0/permittivity0); %Impédance du milieu (Ω).
+  damping_factor=0.658E-22/hbar; %Facteur d'amortissement (1/s).
   #----------------------------------------------------
   #-----------------Derived quantities-----------------
-  k0=2*pi/in.lambda; %Vecteur d'onde dans le vide.
-  w=2*pi*c/(in.n*in.lambda); %Pulsation
+  k0=2*pi/in.lambda; %Vecteur d'onde dans le vide (rad/m).
+  w=2*pi*c/(in.n*in.lambda); %Pulsation (rad/s).
   %valeur de n = 1 ?
-  sigma_g=sigma(w, damping_factor, in.T, in.mu_c); %Conductivité du graphène
-  k1=k0*sqrt(in.permittivityr1*in.permeabilityr1); %Vecteur d'onde milieu 1
-  k2=k0*sqrt(in.permittivityr2*in.permeabilityr2); %Vecteur d'onde milieu 2
+  sigma_g=sigma(w, damping_factor, in.T, in.mu_c); %Conductivité du graphène (S/m).
+  k1=k0*sqrt(in.permittivityr1*in.permeabilityr1); %Vecteur d'onde milieu 1 (rad/m).
+  k2=k0*sqrt(in.permittivityr2*in.permeabilityr2); %Vecteur d'onde milieu 2 (rad/m).
 
                   %Incident wave vector
-  alpha=k1*sin(in.theta)*cos(in.phi); %Première composante vecteur k
-  beta=k1*sin(in.theta)*sin(in.phi);  %Deuxième composante vecteur k
-  gamma=k1*cos(in.theta);             %Troisième composante vecteur k
+  alpha=k1*sin(in.theta)*cos(in.phi); %Première composante vecteur k (rad/m).
+  beta=k1*sin(in.theta)*sin(in.phi);  %Deuxième composante vecteur k (rad/m).
+  gamma=k1*cos(in.theta);             %Troisième composante vecteur k (rad/m).
   #----------------------------------------------------
   #-------------Computing Scattering Matrix------------
               %Omega, Gamma1, Gamma2 Matrices
-  [omega, gamma1, gamma2] = omega_gamma_matrix(in.M, alpha, beta, in.d, k0, k1, k2, Z0, sigma_g, in.a); %Appelle de la focntion qui calcul les matrices omega, gamma1, gamma2.
-  % M : l'ordre de troncature. % alpha : Première composante vecteur k.  % beta : Deuxième composante vecteur k. % d : Période du réseau  % sigma_g : Fonction qui calcul la conductivité sigma du graphènne % a : Largeur d'une bande de graphène. 
+  [omega, gamma1, gamma2] = omega_gamma_matrix(in.M, alpha, beta, in.d, k0, k1, k2, Z0, sigma_g, in.a); %Appel de la fonction qui calcule les matrices omega, gamma1, gamma2.
+  % M : l'ordre de troncature. % alpha : Première composante vecteur k (rad/m).  % beta : Deuxième composante vecteur k (rad/m). % d : Période du réseau (m)  % sigma_g : Fonction qui calcule la conductivité sigma du graphène (S/m) % a : Largeur d'une bande de graphène (m). 
   % : Pour le retse cf. Derived quantities
                     %Scattering Matrix
-  S=compute_scattering_matrix(gamma1, gamma2, omega, in.M);%Appelle de la focntion qui calcul la matrice S.
-  % omega, gamma1, gamma2 sont les matrices qui permettent le calcul de S.
+  S=compute_scattering_matrix(gamma1, gamma2, omega, in.M);%Appel de la fonction qui calcule la matrice S.
+  % omega, gamma1, gamma2 sont les matrices qui permettent le calcule de S.
   
   #----------------------------------------------------
   #-----------------Compute R, T vectors---------------
-  [I, J, R, T]=IJRT_vectors(in.Ixy, in.Jxy, S, in.M, in.d, alpha, beta, k1, k2); %Appelle de la focntion qui calcul les 3 composants des vecteurs I, J, R, T.
+  [I, J, R, T]=IJRT_vectors(in.Ixy, in.Jxy, S, in.M, in.d, alpha, beta, k1, k2); %Appel de la fonction qui calcule les 3 composants des vecteurs I, J, R, T.
   %Ixy et Jxy les deux premières composantes de I et J (x et y) ; calculés à partir de la matrice S à l'ordre de troncature M.
-    % : Pour le retse cf. Derived quantities et Incident wave vector
+    % : Pour le reste cf. Derived quantities et Incident wave vector
   #----------------------------------------------------
   #--------------------Absorption----------------------
-  A=compute_absorption(R, T, in.M, alpha, beta, in.d, k1, k2); %Apelle de la fonction qui calcul l'aborption lors de l'interaction avec le graphène.
+  A=compute_absorption(R, T, in.M, alpha, beta, in.d, k1, k2); %Apelle de la fonction qui calcule l'absorption lors de l'interaction avec le graphène.
   % R et T contiennent trois composantes (selon x, y, z). 
   #----------------------------------------------------
   #-------------Building Results structure-------------
@@ -160,7 +158,7 @@ endfunction %Retourne la structure Results.
 
   endif
 
-  if ~sweep.enable % Si le balayage est désactivé (calcul simple, pas de variation de paramètre).
+  if ~sweep.enable % Si le balayage est désactivé (calcule simple, pas de variation de paramètre).
 
   results=compute_values(in, out); % Calcul des résultats en appelant la fonction compute_values.
 
@@ -183,7 +181,7 @@ endfunction %Retourne la structure Results.
   end
 
   fprintf(fid, 'Simulation Results:\n\n');   % Nom du header du fichier.
-  % Sauvegarde des résultats selon le choix des output.
+  % Sauvegarde des résultats selon le choix des sorties.
   if out.absorption
     fprintf(fid, 'Absorption = %.4e\n', results.absorption);
   endif
@@ -238,7 +236,7 @@ endfunction %Retourne la structure Results.
 endfunction
 
 function A = compute_absorption (R, T, M, alpha, beta, d, k1, k2) % Calcul de l'absorption à partir des vecteurs complexes  R et T à l'ordre de troncature de Fourier M. Des composantes de k : alpha, et beta. 
-% Période d du réseau. Des vecteurs d'onde dans le milieu 1 et 2 (k1 et k2).
+% Période d du réseau (m). Des vecteurs d'onde dans le milieu 1 et 2 (k1 et k2).
 
   res_sum=0;
   gamma_10=sqrt(k1^2 - alpha^2 - beta^2);  % Calcul de gamma_10 : composante z du vecteur d'onde dans le milieu incident
@@ -262,9 +260,9 @@ function A = compute_absorption (R, T, M, alpha, beta, d, k1, k2) % Calcul de l'
   A=1-res_sum; %Calcul de l'absoprtion.
 endfunction
 
-function T = toeplitz_matrix (M, a, d, sigma_g) % Fonction qui calcul la matrice de Toeplitz complexe de taille (2M+1) x (2M+1) [de -2M à 2M en passant par 0).
+function T = toeplitz_matrix (M, a, d, sigma_g) % Fonction qui calcule la matrice de Toeplitz complexe de taille (2M+1) x (2M+1) [de -2M à 2M en passant par 0).
 % M: ordre de troncature . % a : périodicté du réseau. % d période du réseau. 
-% Fonction sigma_g  : calcul de laconductivité du graphène.
+% Fonction sigma_g  : calcule de la conductivité du graphène.
 
   % Initialisation :
   c_vect=[]; % Première colonne de la matrice Toeplitz.
@@ -281,9 +279,9 @@ function T = toeplitz_matrix (M, a, d, sigma_g) % Fonction qui calcul la matrice
 endfunction
 
 function sigma_g = sigma(w, damp, T, mu_c) % Fonction qui calcule la conductivité de surface du graphène.
-% w : la pulsation temporelle (rad/s), damp : l'amortissement (sans dimension), T (en Kelvin) : la température et le potentiel chimique mu_c (Joule).
+% w : la pulsation temporelle (rad/s), damp : l'amortissement (1/s), T (en Kelvin) : la température et le potentiel chimique mu_c (en Joule).
 
-  e=1.6E-19; %charge elementaire (Coulomb)
+  e=1.6E-19; %charge élémentaire (C) (Coulomb)
   hbar=1.05E-34; %constante de Planck réduite (J.s).
   kb=1.38E-23; % constante de Boltzmann (J/K).
 
@@ -297,7 +295,7 @@ function sigma_g = sigma(w, damp, T, mu_c) % Fonction qui calcule la conductivit
 endfunction
 
 function [omega, gamma1, gamma2] = omega_gamma_matrix (M, alpha, beta, d, k0, k1, k2, Z0, sigma_g, a) % Fonction qui construit les matrices omega, gamma1 et gamma2.
-% Ordre de troncature de Fourier M. Première et deuxième composantes (alpha, beta) du vecteur d'onde. Période d du réseau. Différents vecteurs d'ondes (vide : k0, milieu 1 : k1, milieu 2 : k2).
+% Ordre de troncature de Fourier M. Première et deuxième composantes (alpha, beta) du vecteur d'onde. Période d du réseau (m). Différents vecteurs d'ondes (vide : k0, milieu 1 : k1, milieu 2 : k2).
 
   K=2*pi/d; % Vecteur réciproque liée à la périodicité spatiale.
 
@@ -315,8 +313,8 @@ function [omega, gamma1, gamma2] = omega_gamma_matrix (M, alpha, beta, d, k0, k1
 
 
     p = (1:2*M+1);
-    n=p-(M+1); %p utilisé pour le calcul de la matrice sigma (pas va de -M à +M).
-    alpha_n=alpha+n*K; % calcul du vecteur alpha_n.
+    n=p-(M+1); %p utilisé pour le calcule de la matrice sigma (pas va de -M à +M).
+    alpha_n=alpha+n*K; % calcule du vecteur alpha_n.
 	
 	%Calcul des gamma des deux milieux.
     gamma_1n=sqrt(k1^2 - alpha_n.^2 - beta^2); 
@@ -337,9 +335,9 @@ function [omega, gamma1, gamma2] = omega_gamma_matrix (M, alpha, beta, d, k0, k1
 
 endfunction
 
-function [I, J, R, T] = IJRT_vectors (Ixy, Jxy, S, M, d, alpha, beta, k1, k2) % Fonction qui permet le calcul des vecteurs complexes I, J, R, T. 
+function [I, J, R, T] = IJRT_vectors (Ixy, Jxy, S, M, d, alpha, beta, k1, k2) % Fonction qui permet le calcule des vecteurs complexes I, J, R, T. 
 % Ixy, Jxy : vecteurs colonnes représentant les composantes  x, y. % S : scattering matrix reliant les vecteurs incidents aux vecteurs réfléchis et transmis.
-% M : ordre de troncature pour les harmoniques de Fourier. % d : Période d du réseau. % alpha  et beta : composante x  et y du vecteur d’onde incident.
+% M : ordre de troncature pour les harmoniques de Fourier. % d : Période d du réseau (m). % alpha  et beta : composante x  et y du vecteur d’onde incident.
 % k1, k2   : modules du vecteur d’onde dans les milieux 1 (incident) et 2 (transmis)
 
   K=2*pi/d;  % Vecteur réciproque liée à la périodicité spatiale.
@@ -358,13 +356,13 @@ function [I, J, R, T] = IJRT_vectors (Ixy, Jxy, S, M, d, alpha, beta, k1, k2) % 
   px = (1:2*M+1);
   py = px+1+2*M;
   n = px-1-M;
-  alpha_n = transpose(alpha+n*K); % calcul du vecteur alpha_n.
+  alpha_n = transpose(alpha+n*K); % calcule du vecteur alpha_n.
   
   %Calcul des gamma des deux milieux.
   gamma_1n=sqrt(k1^2 - alpha_n.^2 - beta^2);
   gamma_2n=sqrt(k2^2 - alpha_n.^2 - beta^2);
   
-  % Calcul des comosantes en z (par la formule page 20/24 du diaporama).
+  % Calcul des composantes en z (par la formule page 20/24 du diaporama).
   Iz = -(alpha_n.*I(px) + beta*I(py))./gamma_1n;
   Jz = (alpha_n.*J(px) + beta*J(py))./gamma_2n;
   Rz = (alpha_n.*R(px) + beta*R(py))./gamma_1n;
@@ -379,7 +377,7 @@ function [I, J, R, T] = IJRT_vectors (Ixy, Jxy, S, M, d, alpha, beta, k1, k2) % 
 endfunction
 
 function sigma_p = get_sigma_coeff (p, a, d, sigma_g) % Calcule les coefficients de la matrice de Toeplitz (ou de convolution) pour une bande de graphène qui est périodique associés aux harmoniques p.
-% p : vecteur des indices d’harmoniques de Fourier (entiers). % a : largeur de la bande de graphène. % d : période d du réseau. % sigma_g  : Fonction qui calcul la conductivité du graphène.
+% p : vecteur des indices d’harmoniques de Fourier (entiers). % a : largeur de la bande de graphène. % d : période d du réseau. % sigma_g  : Fonction qui calcule la conductivité du graphène.
 
 
 
