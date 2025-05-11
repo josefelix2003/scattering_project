@@ -54,8 +54,7 @@ En remplaçant \(\vec{B}\) et \(\vec{D}\) dans les équations de Maxwell :
 
 \section*{Hypothèse harmonique}
 
-On sépare les variables temporelles et spatiales. On fait l’hypothèse que les champs oscillent de manière sinusoïdale à une pulsation unique \(\omega\) et ceux depuis la nuit des temps. Par ailleurs, le fait de rendre la partie spatiale indépendante de la pulsation (et donc de la période) permettra, dans la suite de ce projet, d'utiliser la théorie de Fourier.
-
+On sépare les variables temporelles et spatiales. On fait l’hypothèse que les champs oscillent de manière sinusoïdale à une pulsation unique \(\omega\) et ceux depuis la nuit des temps.
 \[
 \vec{\mathcal{E}}(\vec{r}, t) = \vec{E}(\vec{r}) e^{-i \omega t}, \quad
 \vec{\mathcal{D}}(\vec{r}, t) = \vec{D}(\vec{r}) e^{-i \omega t}, \quad
@@ -76,10 +75,10 @@ On sépare les variables temporelles et spatiales. On fait l’hypothèse que le
 \end{aligned}
 \right.
 \]
-\section*{Incidence normale : }
+\section*{1/ Incidence classique : }
 La forme du réseau impose la base cartésienne pour traiter le problème.
 
-Le réseau est tout d'abord invariant suivant la direction \(y\). Les champs ne dépendent donc pas de \(y\). Par ailleurs, le théorème de Noether stipule qu'une invariance en translation est à l'origine de la conservation de la quantité de mouvement. Nous avons un problème périodique, c'est donc le vecteur d'onde \(\vec{k}\) qui est conservé. Ce vecteur est donc de norme constante. La composante \(k_y\) est nulle car on est en incidence normale. Une composante constante et nulle en un point est nulle de partout.
+Le réseau est en incidence classique, invariant suivant la direction \(y\). Les champs ne dépendent donc pas de \(y\). Par ailleurs, le théorème de Noether stipule qu'une invariance en translation est à l'origine de la conservation de la quantité de mouvement. Nous avons un problème périodique, c'est donc le vecteur d'onde \(\vec{k}\) qui est conservé. Ce vecteur est donc de norme constante. La composante \(k_y\) est nulle car on est en incidence normale. Une composante constante et nulle en un point est nulle de partout.
 
 Nous pouvons donc calculer les rotationnels de \(\vec{E}\) et \(\vec{H}\) en ignorant les dérivées par rapport à \(y\) :
 
@@ -125,7 +124,7 @@ On peut alors rassembler ce qui dépend de \(E_y\) d'un côté (transverse élec
 \right.
 \]
 
-\section*{Relation de dispersion}
+\section*{Relation de dispersion en incidence classique :}
 
 On part de l'équation d’Alembert en deux dimensions (selon \(x\) et \(z\)) :
 
@@ -169,7 +168,7 @@ Les solutions sont des ondes planes de la forme :
 u(x, z) = u_0 e^{i \vec{k}  \vec{r}} = u_0 e^{i(k_x x + k_y y + k_z z)} = u_0 e^{i(\alpha x + \beta y + \gamma z)},
 \]
 
-avec les identifications :
+avec les notations :
 
 \[
 k_x = \alpha, \quad k_y = \beta, \quad k_z = \gamma
@@ -181,51 +180,7 @@ On obtient alors la relation de dispersion :
 \alpha^2 + \beta^2 + \gamma^2 = \frac{\omega^2}{c^2} \varepsilon_r \mu_r
 \]
 
-Le théorème de Bloch affirme que la fonction d'onde est périodique à une phase près. Mathématiquement, cela s’écrit :
-
-\[
-u(x + d, z) = u(x, z) e^{i \alpha d}
-\]
-
-\section*{Système de coordonné en incidence conique :}
-
-D'un coté le réseau avec lequel nous travaillons à une symétrie cartésienne, mais de l'autre nous souhaitons travailler en incidence conique ce qui necessite d'avoir des angles. Nous allons donc projetter la base conique dans la base catésienne pour pouvoir concilier ces deux aspects : 
-
-\begin{align*}
-x &= \cos\delta \cos\theta \cos\varphi - \sin\delta \sin\varphi \\
-y &= \cos\delta \cos\theta \sin\varphi + \sin\delta \cos\varphi \\
-z &= -\cos\delta \sin\theta
-\end{align*}
-\noindent
-Les angles utilisés dans cette base conique sont définis comme suit :
-\begin{itemize}
-  \item \( \theta \) : angle polaire, mesuré par rapport à l’axe \( z \),
-  \item \( \varphi \) : angle azimutal, mesuré dans le plan \( xOy \) : c'est cette angle qui nous fait sortir de l'incidence normale.
-  \item \( \delta \) : angle secondaire : c'est cette angle qui nous fait sortir de l'incidence oblique pour nous placer en incidence conique. C'est cet angle qui defini dans quelle polarisation nous sommes.
-\end{itemize}
-
-Les composantes y du vecteur d'onde k ne sont plus nulles car on est en incidence conique.
-\section*{Conditions aux limites à l'interface $z = 0$}
-
-Les relations de passage indiquent que pour un matériau comme le graphène, qui ne possède pas de charge surfacique, il y a conservation de la composante tangentielle du champ $\mathbf{E}$ à l'interface ($z = 0$) :
-\[
-E_{1x}(x, y, 0) = E_{2x}(x, y, 0)
-\]
-\[
-E_{1y}(x, y, 0) = E_{2y}(x, y, 0)
-\]
-
-En revanche, le graphène est conducteur. Les composantes tangentielles de $\mathbf{H}$ présentent donc un saut : elles obéissent en $z = 0$ à la loi d'Ohm locale :
-\[
-H_{2x}(x, y, 0) - H_{1x}(x, y, 0) = \sigma(x) E_{1/2\, y}(x, y, 0)
-\]
-\[
-H_{2y}(x, y, 0) - H_{1y}(x, y, 0) = -\sigma(x)  E_{1/2\, x}(x, y, 0)
-\]
-
-On peut choisir librement $\mathbf{E}_1$ ou $\mathbf{E}_2$, car $\mathbf{E}_1 = \mathbf{E}_2$. D'où la notation $\mathbf{E}_{1/2}$.
-
-\section*{Série de Fourier}
+\section*{Condition aux limites en incidence classique :}
 
 Le développement en série de Fourier impose :
 \[
@@ -242,14 +197,16 @@ et :
 u_i(x, z) = \sum_{n \in \mathbb{Z}} \left( I_n e^{i \gamma_{in} z} + R_n e^{-i \gamma_{in} z} \right) e^{i \alpha_n x}
 \]
 
-Les conventions de signe adoptées sont les suivantes :
+Les conventions de signe adoptées sont les suivantes : elles proviennent du choix \(e^{-i\omega t}
+\) pour la partie temporelle et de \(z\) entrant.
 \begin{itemize}
   \item Les ondes de la forme \( e^{+i \gamma z} \) correspondent aux ondes entrantes, c’est-à-dire celles qui se propagent vers l’intérieur de la structure.
   \item Les ondes de la forme \( e^{-i \gamma z} \) correspondent aux ondes sortantes, c’est-à-dire celles qui se propagent vers l’extérieur.
-  \item \( u_i(x,z) \) désigne le champ dans le milieu 1, tandis que \( u_0(x,z) \) correspond au milieu 2.
+  \item \( u_i(x,z) \) désigne le champ dans le milieu 1, tandis que \( u_0(x,z) \) correspond au milieu 2 (i=input et o=output).
 \end{itemize}
 
 \medskip
+
 
 
 Dans ces expressions :
@@ -274,7 +231,8 @@ Ce qui donne :
 \forall n \in \mathbb{Z}, \quad I_n + R_n = T_n + J_n
 \]
 En effet, deux série de Fourier sont égales si et seulement si elles ont les mêmes coefficiants (même argument que dans l'algèbre des polynômes).
-\section*{Expression de l’onde plane incidente}
+\section*{2/ Incidence conique :}
+\section*{Expression de l’onde plane en incidence conique}
 
 L’onde plane incidente a pour expression :
 \[
@@ -285,7 +243,11 @@ L’onde plane incidente a pour expression :
 \mathbf{E}_{2+}(\mathbf{r}) = \mathbf{T}_n e^{i \mathbf{k}_{2n}^{+} \cdot \mathbf{r}}, \qquad
 \mathbf{E}_{2-}(\mathbf{r}) = \mathbf{J}_n e^{i \mathbf{k}_{2n}^{-} \cdot \mathbf{r}}
 \]
+Le théorème de Bloch affirme que la fonction d'onde est périodique à une phase près. Mathématiquement, cela s’écrit :
 
+\[
+u(x + d, z) = u(x, z) e^{i \alpha d}
+\]
 On a donc :
 \[
 \mathbf{E}_1(\mathbf{r}) = \sum_{n \in \mathbb{Z}} \left( \mathbf{I}_n e^{i \mathbf{k}_{1n}^{+} \cdot \mathbf{r}} + \mathbf{R}_n e^{i \mathbf{k}_{1n}^{-} \cdot \mathbf{r}} \right)
@@ -456,24 +418,72 @@ e^{i \mathbf{k}_{2n}^{-} \cdot \mathbf{r}}
 \right)
 \]
 
+\section*{Expression des composantes des champs en incidence conique :}
+
+D'un coté le réseau avec lequel nous travaillons possède une symétrie cartésienne, mais de l'autre nous souhaitons travailler en incidence conique ce qui necessite d'avoir des angles. Nous allons transformer un vecteur défini dans un repère conique vers un repère cartésien :
+
+\[
+\mathbf{I}_0 = 
+\begin{pmatrix}
+\cos\delta \cos\theta \cos\varphi - \sin\delta \sin\varphi \\
+\cos\delta \cos\theta \sin\varphi + \sin\delta \sin\varphi \\
+-\cos\delta \sin\theta
+\end{pmatrix}
+\]
+\noindent
+Les angles utilisés dans cette base conique sont définis comme suit :
+\begin{itemize}
+  \item \( \theta \) : angle polaire, mesuré par rapport à l’axe \( z \),
+  \item \( \varphi \) : angle azimutal, mesuré dans le plan \( xOy \) : c'est cette angle qui nous fait sortir de l'incidence normale.
+  \item \( \delta \) : angle secondaire : c'est cette angle qui nous fait sortir de l'incidence oblique pour nous placer en incidence conique. C'est cet angle qui defini dans quelle polarisation nous sommes.
+\end{itemize}
+
+Les composantes y du vecteur d'onde k ne sont plus nulles car on est en incidence conique.
 
 
-\section*{Expression de la conductivité \( \sigma_g \) :}
+\section*{Conditions aux limites à l'interface $z = 0$}
 
-On considère la conductivité du graphène donnée par la somme des conductivités interbande et intrabande :
+Les relations de passage indiquent que pour un matériau comme le graphène, qui ne possède pas de charge surfacique, il y a conservation de la composante tangentielle du champ $\mathbf{E}$ à l'interface ($z = 0$) :
+\[
+E_{1x}(x, y, 0) = E_{2x}(x, y, 0)
+\]
+\[
+E_{1y}(x, y, 0) = E_{2y}(x, y, 0)
+\]
+
+En revanche, le graphène est conducteur. Les composantes tangentielles de $\mathbf{H}$ présentent donc un saut : elles obéissent en $z = 0$ à la loi d'Ohm locale :
+\[
+H_{2x}(x, y, 0) - H_{1x}(x, y, 0) = \sigma(x) E_{1/2\, y}(x, y, 0)
+\]
+\[
+H_{2y}(x, y, 0) - H_{1y}(x, y, 0) = -\sigma(x)  E_{1/2\, x}(x, y, 0)
+\]
+
+On peut choisir librement $\mathbf{E}_1$ ou $\mathbf{E}_2$, car $\mathbf{E}_1 = \mathbf{E}_2$. D'où la notation $\mathbf{E}_{1/2}$.
+
+\section*{Expression de la conductivité \( \sigma_g \)}
+
+La conductivité du graphène est donnée par la somme des contributions intra- et interbande. Le système étant invariant dans le temps, la pulsation \( \omega \) est également invariante.
 
 \[
 \sigma_g = \sigma_{\text{intra}} + \sigma_{\text{inter}}
 \]
 
+Bande la plus basse :
+
 \[
 \sigma_{\text{intra}}(\omega) = \frac{2i e^2 k_B T}{\pi \hbar^2 (\omega + i \gamma)} \ln \left[ 2 \cosh\left(\frac{\mu_c}{2k_B T}\right) \right]
 \]
-
+Passage de la bande 1 à 2 :
 \[
 \sigma_{\text{inter}} = \frac{e^2}{4\hbar} \left( \frac{1}{2} + \frac{1}{\pi} \arctan \left( \frac{\hbar(\omega + i\gamma) - 2\mu_c}{2k_B T} \right)
 - \frac{i}{2\pi} \ln \left( \frac{[\hbar(\omega + i\gamma) + 2\mu_c]^2}{[\hbar(\omega + i\gamma) - 2\mu_c]^2 + (2k_B T)^2} \right) \right)
 \]
+À haute fréquence, le terme
+\[
+- \frac{i}{2\pi} \ln \left( \frac{[\hbar(\omega + i\gamma) + 2\mu_c]^2}{[\hbar(\omega + i\gamma) - 2\mu_c]^2 + (2k_B T)^2} \right)
+\]
+devient négligeable.
 
 \bigskip
 
@@ -840,7 +850,7 @@ où :
 
 La part de puissance transportée par l'onde diminue cette absorption.
 \bigskip
-\section*{Conclusion :}
+\section*{3/ Conclusion :}
 \bigskip
 
 \end{document}
