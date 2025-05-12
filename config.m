@@ -3,7 +3,7 @@ out = struct();      % Structure définissant les sorties à enregistrer.
 sweep = struct();    % Structure pour configurer le balayage paramétrique.
 
 #-------------------Sweep config----------------------
-sweep.enable = true;                      % Active (true) ou désactive (false) le balayage paramétrique.
+sweep.enable = true;                      % Active (true) ou désactive (false) le balayage paramétrique ; Possible uniquement pour les sorties de type scalaire.
 sweep.input_variable = 'lambda';         % Nom de la variable d’entrée à faire varier parmi les éléments de la structure input.
 sweep.min = 300E-9;                      % Valeur minimale à faire varier.
 sweep.max = 400E-9;                      % Valeur maximale à faire varier.
