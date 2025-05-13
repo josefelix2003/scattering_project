@@ -14,10 +14,11 @@
 \bigskip
 \textit{"On désire construire un code de calcul capable de simuler la diffraction d’une onde EM plane
 par un réseau de diffraction plantaire fait de strips à base de graphène."
-}
+c}
 \section*{Équations de Maxwell}
 
-On se place dans un milieu LHI (Linéaire, Homogène, Isotrope) :
+On se place dans un milieu LHI (linéaire, homogène et isotrope). Les champs \( \vec{E} \) et \( \vec{B} \) représentent respectivement le champ électrique et le champ magnétique, c’est-à-dire les grandeurs fondamentales du champ électromagnétique. Les champs \( \vec{D} \) et \( \vec{H} \) traduisent la réponse du milieu : \( \vec{D} \) tient compte de la polarisation électrique, tandis que \( \vec{H} \) tient compte de l’aimantation. Ils permettent ainsi de reformuler les lois de Maxwell en présence de matériaux.
+
 
 \[
 \left\{
@@ -78,9 +79,10 @@ On sépare les variables temporelles et spatiales. On fait l’hypothèse que le
 \section*{1/ Incidence classique : }
 La forme du réseau impose la base cartésienne pour traiter le problème.
 
-Le réseau est en incidence classique, invariant suivant la direction \(y\). Les champs ne dépendent donc pas de \(y\). Par ailleurs, le théorème de Noether stipule qu'une invariance en translation est à l'origine de la conservation de la quantité de mouvement. Nous avons un problème périodique, c'est donc le vecteur d'onde \(\vec{k}\) qui est conservé. Ce vecteur est donc de norme constante. La composante \(k_y\) est nulle car on est en incidence normale. Une composante constante et nulle en un point est nulle de partout.
+Le réseau est en incidence classique, c'est à dire que tout est contenu dans le plan d'incidence formé par l'axe Oz et le vecteur d'onde incident. Les strips de graphène sont considérées infinies le long de l'axe y et donc le problème est invariant suivant cette direction \(y\).  \\ \par Par ailleurs, le théorème de Noether stipule qu'une invariance en translation est à l'origine de la conservation de la quantité de mouvement. Cela se traduit dans notre problème par la conservation de la composante y du vecteur d'onde \(\vec{k}\). La composante \(k_y\) est nulle car on est en incidence normale (et donc \(\vec{k}\) est contenu dans un plan perpendiculaire à Oy). Une composante constante et nulle en un point est nulle de partout.
 
-Nous pouvons donc calculer les rotationnels de \(\vec{E}\) et \(\vec{H}\) en ignorant les dérivées par rapport à \(y\) :
+Nous pouvons donc calculer les rotationnels de \( \vec{E} \) et \( \vec{H} \) en annulant les dérivées par rapport à \( y \), car la dépendance spatiale s’exprime via un terme de la forme \( e^{i\vec{k} \cdot \vec{r}} \), et la composante de \( \vec{k} \) selon \( y \) est nulle (i.e. \( \beta = 0 \)). Ainsi, \( \vec{k} \cdot \vec{r} \) ne dépend pas de \( y \), ce qui implique que \( \partial / \partial y = 0 \).
+
 
 \[
 \left\{
@@ -102,7 +104,7 @@ Nous pouvons donc calculer les rotationnels de \(\vec{E}\) et \(\vec{H}\) en ign
 \right.
 \]
 
-On peut alors rassembler ce qui dépend de \(E_y\) d'un côté (transverse électrique) et de \(H_y\) de l'autre (transverse magnétique) : 
+On peut alors rassembler ce qui dépend de \(E_y\) d'un côté (transverse électrique) et de \(H_y\) de l'autre (transverse magnétique) formant ainsi les deux polarisations : 
 \\ \\
 {Transverse électrique : TE} \hfill {Transverse magnétique : TM}
 
@@ -126,7 +128,7 @@ On peut alors rassembler ce qui dépend de \(E_y\) d'un côté (transverse élec
 
 \section*{Relation de dispersion en incidence classique :}
 
-On part de l'équation d’Alembert en deux dimensions (selon \(x\) et \(z\)) :
+On part de l'équation d’Alembert où la dérivée \( \partial / \partial y = 0 \) car beta toujours nulle :
 
 \[
 \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial z^2} = \frac{1}{c^2} \frac{\partial^2 u}{\partial t^2}
@@ -200,9 +202,9 @@ u_i(x, z) = \sum_{n \in \mathbb{Z}} \left( I_n e^{i \gamma_{in} z} + R_n e^{-i \
 Les conventions de signe adoptées sont les suivantes : elles proviennent du choix \(e^{-i\omega t}
 \) pour la partie temporelle et de \(z\) entrant.
 \begin{itemize}
-  \item Les ondes de la forme \( e^{+i \gamma z} \) correspondent aux ondes entrantes, c’est-à-dire celles qui se propagent vers l’intérieur de la structure.
-  \item Les ondes de la forme \( e^{-i \gamma z} \) correspondent aux ondes sortantes, c’est-à-dire celles qui se propagent vers l’extérieur.
-  \item \( u_i(x,z) \) désigne le champ dans le milieu 1, tandis que \( u_0(x,z) \) correspond au milieu 2 (i=input et o=output).
+  \item Les ondes de la forme \( e^{+i \gamma z} \) correspondent aux ondes entrantes, c’est-à-dire celles qui se propagent vers l’intérieur de la structure (vers les \(z>0\)).
+  \item Les ondes de la forme \( e^{-i \gamma z} \) correspondent aux ondes sortantes, c’est-à-dire celles qui se propagent vers l’extérieur (vers les \(z<0\)).
+  \item \( u_i(x,z) \) désigne le champ entrant dans le milieu 1, tandis que \( u_0(x,z) \) correspond au milieu 2 (i=in et o=out).
 \end{itemize}
 
 \medskip
@@ -230,7 +232,7 @@ Ce qui donne :
 \[
 \forall n \in \mathbb{Z}, \quad I_n + R_n = T_n + J_n
 \]
-En effet, deux série de Fourier sont égales si et seulement si elles ont les mêmes coefficiants (même argument que dans l'algèbre des polynômes).
+En effet, deux séries de Fourier peuvent s'annuler si et seulement si elles ont les mêmes coefficients car elles forment une base orthonormée (même argument que dans l'algèbre des polynômes).
 \section*{2/ Incidence conique :}
 \section*{Expression de l’onde plane en incidence conique}
 
