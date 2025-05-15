@@ -1,0 +1,150 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+
+Pour un mode Transverse Électrique (\textbf{TE}) :
+
+\[
+
+\begin{cases}
+\vec{E} = E_y(x,z) \, \vec{e}_y \\
+\vec{H} = H_x \, \vec{e}_x + H_z \, \vec{e}_z
+\end{cases}
+\]
+\[
+r_{TE} = \frac{\gamma_1 - \gamma_2}{\gamma_1 + \gamma_2}
+\quad \text{et} \quad
+t_{TE} = \frac{2\gamma_1}{\gamma_1 + \gamma_2}
+\]
+\[
+\gamma_{1/2} = \sqrt{\frac{\omega^2}{c^2} \varepsilon_{1/2} - \alpha^2}
+\]
+\[
+\alpha = \left( \frac{\omega}{c} n_1 \right) \sin \theta = (k_1)\sin \theta
+\]
+
+Donc : 
+\[
+\gamma_{1/2} = \sqrt{k_{1/2}^2 - \alpha^2}
+\]
+\[
+k_{1/2} = \left( \frac{\omega}{c} \right) \, n_{1/2} = (k_0) \, n_{1/2}
+\]
+\[
+\text{En incidence normale : } (\theta = 0) :
+\]
+\[
+\text{Donc } \alpha = 0
+\]
+\[
+\gamma_{1/2} = \sqrt{k_{1/2}^2 - 0^2} = k_{1/2}
+\]
+Le coefficient de réflexion en polarisation TE, sous incidence normale, est donné par :
+\[
+r_{TE} = \frac{k_1 - k_2}{k_1 + k_2}= 
+\frac{\gamma_1 - \gamma_2}{\gamma_1 + \gamma_2}
+= \frac{k_0 n_1 - k_0 n_2}{k_0 n_1 + k_0 n_2}
+= \frac{n_1 - n_2}{n_1 + n_2}
+\]
+
+En l'absence de graphène, et pour \( n_1 = 1 \) et \( n_2 = 1{,}5 \) : \\ \\
+\[
+r_{TE} = \frac{1 - 1{,}5}{1 + 1{,}5}=-0,2
+\]
+
+\varepsilon_r =  \frac{n_1}{n_1}|r_{TE}|^2 
+= |{-0{,}2}|^2 = 0{,}04 \equiv 4\% \\\
+
+De la même manière : \\
+
+t_{TE} = \frac{2 \gamma_1}{\gamma_1 + \gamma_2}
+= \frac{2 k_1}{k_1 + k_2}
+= \frac{2 k_0 n_1}{k_0 n_1 + k_0 n_2}
+= \frac{2 n_1}{n_1 + n_2}
+= 0{,}8 \\\\
+\[
+\varepsilon_t = \frac{n_2}{n_1} \left| t_{TE} \right|^2=\frac{1{,}5}{1} \times |0{,8}|^2=0.96=96\% \\\
+\]
+
+Donc : \\
+
+\varepsilon_t + \varepsilon_r =1 \\
+
+En incidence classique (\( \theta \ne 0 \)) :
+\[
+r_{TE} = \frac{\gamma_1 - \gamma_2}{\gamma_1 + \gamma_2}
+= \frac{
+\sqrt{k_1^2 - k_1^2 \sin^2 \theta}
+-
+\sqrt{k_2^2 - k_1^2 \sin^2 \theta}
+}{
+\sqrt{k_1^2 - k_1^2 \sin^2 \theta}
++
+\sqrt{k_2^2 - k_1^2 \sin^2 \theta}
+}
+\]
+\[
+\frac{k_1}{k_2} = \frac{k_0 n_1}{k_0 n_2} = \frac{n_1}{n_2}
+\]
+Loi de Snell-Descartes : 
+
+\[
+n_1 \sin(\theta_1) = n_2 \sin(\theta_2)
+\]
+
+\[
+\frac{n_1}{n_2} \sin(\theta_1) = \sin(\theta_2)
+\]
+
+\[
+r_{TE} = \frac{
+k_1 \sqrt{1 - \sin^2 \theta_1} - k_2 \sqrt{1 - \sin^2 \theta_2}
+}{
+k_1 \cos(\theta_1) + k_2 \cos(\theta_2)
+}
+\]
+On obtient ainsi :
+\[
+r_{TE} = \frac{n_1 \cos \theta_1 - n_2 \cos \theta_2}{n_1 \cos \theta_1 + n_2 \cos \theta_2}
+\]\\\
+
+Pour un mode Transverse Magnetique (\textbf{TM}) :
+
+\[
+
+\left\{
+\begin{array}{l}
+\vec{H} = H_y(x,z)\, \vec{e}_y \\
+\vec{E} = E_x\, \vec{e}_x + E_z\, \vec{e}_z
+\end{array}
+\right.
+\]
+\[
+r_{TM} = \frac{\gamma_1' - \gamma_2'}{\gamma_1' + \gamma_2'}
+\quad \text{et} \quad
+t_{TM} = \frac{2 \gamma_1'}{\gamma_1' + \gamma_2'}
+\]
+\[
+\gamma_1' = \frac{\gamma_1}{\varepsilon_1}=\frac{\gamma_1}{n_1^2}
+\]
+\[
+\gamma_2' = \frac{\gamma_2}{\varepsilon_2}=\frac{\gamma_2}{n_2^2}
+\]
+En incidence conique, on permute :
+\[
+(\theta = 30^\circ, \psi = 0^\circ) \quad \leftrightarrow \quad (\theta = 30^\circ, \psi = 45^\circ)
+\]
+
+On effectue ce test avec :
+\[
+\delta = 90^\circ \quad \Rightarrow \quad \text{polarisation TE}
+\]
+\[
+\delta = 0^\circ \quad \Rightarrow \quad \text{polarisation TM}
+\]
+
+
+
+\end{document}
